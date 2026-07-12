@@ -1,0 +1,344 @@
+/* ============================================
+   ByteAC - Main Application Logic (GSAP + ScrollTrigger)
+   ============================================
+   TWEAKING GUIDE:
+   - Hero stagger: Change 0.15 to control delay between hero element reveals
+   - ScrollTrigger start/end: "top 85%" means animation starts when top of element hits 85% viewport
+   - Feature card stagger: 0.1 controls cascading delay between cards
+   - Pricing card stagger: 0.12 controls pricing card cascade
+   - Tilt intensity: Change tiltMax (currently 8) for more/less card rotation
+   - Parallax factor: Adjust speed values in parallax sections
+   ============================================ */
+
+(function () {
+    'use strict';
+
+    // ============ GSAP + ScrollTrigger SETUP ============
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ============ SMOOTH SCROLL PROGRESS FOR THREE.JS ============
+    // Track total scroll progress 0→1 and send to Three.js scene
+    ScrollTrigger.create({
+        trigger: 'body',
+        start: 'top top',
+        end: 'bottom bottom',
+        onUpdate: (self) => {
+            if (window.updateThreeScroll) {
+                window.updateThreeScroll(self.progress);
+            }
+        }
+    });
+
+    // ============ NAVBAR SCROLL EFFECT ============
+    const nav = document.querySelector('nav');
+    ScrollTrigger.create({
+        trigger: 'body',
+        start: '80px top',
+        onEnter: () => nav.classList.add('scrolled'),
+        onLeaveBack: () => nav.classList.remove('scrolled')
+    });
+
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const setNavOpen = (open) => {
+        if (!nav || !navToggle) return;
+        nav.classList.toggle('nav-open', open);
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        document.body.style.overflow = open ? 'hidden' : '';
+    };
+
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', () => setNavOpen(!nav.classList.contains('nav-open')));
+        navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNavOpen(false)));
+        window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNavOpen(false); });
+        window.addEventListener('resize', () => { if (window.innerWidth > 768) setNavOpen(false); });
+    }
+
+    // ============ HERO REVEAL ANIMATION ============
+    // Cinematic staggered entrance for all hero elements
+    const heroTL = gsap.timeline({ delay: 0.3 });
+
+    heroTL
+        .to('.hero-right', {
+            opacity: 1,
+            x: 0,
+            z: 0,
+            duration: 1.2,
+            ease: 'power3.out'
+        })
+        .to('.hero-badge', {
+            opacity: 1,
+            y: 0,
+            z: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.7')
+        .to('.hero h1', {
+            opacity: 1,
+            y: 0,
+            z: 0,
+            duration: 0.9,
+            ease: 'power3.out'
+        }, '-=0.5')
+        .to('.hero-underline', {
+            opacity: 1,
+            y: 0,
+            z: 0,
+            width: '100%',
+            duration: 1,
+            ease: 'power2.out'
+        }, '-=0.5')
+        .to('.hero-subtitle', {
+            opacity: 1,
+            y: 0,
+            z: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.6')
+        .to('.hero-buttons', {
+            opacity: 1,
+            y: 0,
+            z: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.5')
+        .to('.stats-row', {
+            opacity: 1,
+            y: 0,
+            z: 0,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.4');
+
+    // ============ SECTION TITLE ANIMATIONS ============
+    gsap.utils.toArray('.section-title').forEach(title => {
+        const h2 = title.querySelector('h2');
+        const p = title.querySelector('p');
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: title,
+                start: 'top 85%',
+                end: 'top 50%',
+                toggleActions: 'play none none none'
+            }
+        });
+
+        tl.from(h2, {
+            opacity: 0,
+            y: 50,
+            scale: 0.9,
+            duration: 0.8,
+            ease: 'power3.out'
+        })
+        .from(p, {
+            opacity: 0,
+            y: 30,
+            duration: 0.6,
+            ease: 'power3.out'
+        }, '-=0.3');
+    });
+
+    // ============ FEATURE CARDS - STAGGERED 3D ENTRANCE ============
+    gsap.utils.toArray('.feature-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                end: 'top 60%',
+                toggleActions: 'play none none none'
+            },
+            opacity: 0,
+            y: 80,
+            rotateX: -10,
+            scale: 0.9,
+            duration: 0.8,
+            delay: i * 0.1,  // Stagger delay
+            ease: 'power3.out'
+        });
+    });
+
+    // ============ PRICING CARDS - STAGGERED ENTRANCE ============
+    gsap.utils.toArray('.pricing-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                end: 'top 60%',
+                toggleActions: 'play none none none'
+            },
+            opacity: 0,
+            y: 60,
+            scale: 0.92,
+            duration: 0.7,
+            delay: i * 0.12,  // Stagger delay
+            ease: 'power2.out'
+        });
+    });
+
+    // ============ SECTION DIVIDERS ============
+    gsap.utils.toArray('.section-divider').forEach(div => {
+        gsap.from(div, {
+            scrollTrigger: {
+                trigger: div,
+                start: 'top 90%',
+                toggleActions: 'play none none none'
+            },
+            scaleX: 0,
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power2.out'
+        });
+    });
+
+    // ============ FOOTER REVEAL ============
+    gsap.from('footer', {
+        scrollTrigger: {
+            trigger: 'footer',
+            start: 'top 95%',
+            toggleActions: 'play none none none'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: 'power2.out'
+    });
+
+    // ============ 3D TILT EFFECT ON CARDS (OPTIMIZED) ============
+    // Throttled via rAF to prevent jank — no backdrop-filter, no CSS var updates
+    const tiltMax = 6; // Max degrees of tilt
+
+    function addTiltEffect(cards) {
+        if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
+        cards.forEach(card => {
+            let ticking = false;
+            let lastX = 0, lastY = 0;
+
+            // Set perspective once, not per-frame
+            gsap.set(card, { transformPerspective: 800 });
+
+            card.addEventListener('mousemove', (e) => {
+                lastX = e.clientX;
+                lastY = e.clientY;
+                if (!ticking) {
+                    ticking = true;
+                    requestAnimationFrame(() => {
+                        const rect = card.getBoundingClientRect();
+                        const x = (lastX - rect.left) / rect.width;
+                        const y = (lastY - rect.top) / rect.height;
+                        gsap.to(card, {
+                            rotateX: (y - 0.5) * -tiltMax,
+                            rotateY: (x - 0.5) * tiltMax,
+                            duration: 0.4,
+                            ease: 'power2.out',
+                            overwrite: 'auto'
+                        });
+                        ticking = false;
+                    });
+                }
+            }, { passive: true });
+
+            card.addEventListener('mouseleave', () => {
+                ticking = false;
+                gsap.to(card, {
+                    rotateX: 0,
+                    rotateY: 0,
+                    duration: 0.5,
+                    ease: 'power3.out',
+                    overwrite: 'auto'
+                });
+            });
+        });
+    }
+
+    addTiltEffect(document.querySelectorAll('.feature-card'));
+    addTiltEffect(document.querySelectorAll('.pricing-card'));
+
+    // ============ BUTTON HOVER MICRO-ANIMATIONS ============
+    document.querySelectorAll('.btn, .pricing-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            gsap.to(btn, { scale: 1.03, duration: 0.25, ease: 'power2.out' });
+        });
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, { scale: 1, duration: 0.3, ease: 'power2.out' });
+        });
+    });
+
+    // ============ STAT ICON HOVER ============
+    document.querySelectorAll('.stat-icon').forEach(icon => {
+        icon.addEventListener('mouseenter', () => {
+            gsap.to(icon, { scale: 1.15, rotation: 5, duration: 0.3, ease: 'back.out(2)' });
+        });
+        icon.addEventListener('mouseleave', () => {
+            gsap.to(icon, { scale: 1, rotation: 0, duration: 0.4, ease: 'power2.out' });
+        });
+    });
+
+    // ============ PARALLAX SECTIONS ============
+    // Create depth by moving sections at different scroll speeds
+    gsap.utils.toArray('.section-3d').forEach((section, i) => {
+        gsap.to(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1 // Smooth scrubbing
+            },
+            y: -30 * (i + 1) * 0.3,
+            ease: 'none'
+        });
+    });
+
+    // ============ ORIGINAL BUSINESS LOGIC (UNTOUCHED) ============
+
+    const API = 'https://api.byte-anticheat.online';
+
+    // Typewriter effect
+    const fullText = "ByteAC is the ultimate anti-cheat solution for your FiveM servers, offering unparalleled protection against cheaters and malicious exploits.";
+    const typewriterEl = document.getElementById('typewriter');
+    let charIndex = 0;
+
+    function typeWriter() {
+        if (charIndex < fullText.length) {
+            typewriterEl.innerHTML = fullText.substring(0, charIndex + 1) + '<span class="cursor"></span>';
+            charIndex++;
+            setTimeout(typeWriter, 30);
+        }
+    }
+
+    setTimeout(typeWriter, 1200); // Slightly delayed to sync with hero reveal
+
+    // Counter animation
+    function animateCounter(el, target, duration) {
+        const start = parseInt(el.textContent) || 0;
+        const diff = target - start;
+        if (diff === 0) return;
+        const startTime = performance.now();
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.round(start + diff * eased).toLocaleString();
+            if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+    }
+
+    async function fetchStats() {
+        try {
+            const res = await fetch(`${API}/api/stats`);
+            const data = await res.json();
+            if (data.success) {
+                animateCounter(document.getElementById('totalBans'), data.totalBans, 1500);
+                animateCounter(document.getElementById('onlineServers'), data.onlineServers, 1200);
+                animateCounter(document.getElementById('totalServers'), data.totalServers, 1200);
+            }
+        } catch (e) {
+            console.error('Failed to fetch stats:', e);
+        }
+    }
+
+    fetchStats();
+    setInterval(fetchStats, 30000);
+
+})();

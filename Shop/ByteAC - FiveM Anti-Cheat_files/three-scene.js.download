@@ -1,0 +1,298 @@
+/* ============================================
+   ByteAC - Three.js 3D Background Scene
+   ============================================
+   TWEAKING GUIDE:
+   - PARTICLE_COUNT: More particles = denser field (impacts performance)
+   - PARTICLE_SPREAD: How far particles spread in space
+   - ROTATION_SPEED: Base rotation speed of particle field
+   - SCROLL_DEPTH: How much the camera moves on scroll (Z axis)
+   - SCROLL_ROTATION: How much the scene rotates on scroll
+   - FLOAT_AMPLITUDE: How much particles bob up/down
+   - SHIELD_SEGMENTS: Detail level of the shield geometry
+   ============================================ */
+
+(function () {
+    'use strict';
+
+    // ---- CONFIG ----
+    const CONFIG = {
+        PARTICLE_COUNT: 800,       // Number of floating particles
+        PARTICLE_SPREAD: 50,       // Spread radius of particles
+        PARTICLE_SIZE_MIN: 0.03,   // Min particle size
+        PARTICLE_SIZE_MAX: 0.12,   // Max particle size
+        ROTATION_SPEED: 0.00015,   // Auto-rotation speed
+        SCROLL_DEPTH: 15,          // Camera Z movement on full scroll
+        SCROLL_ROTATION: 0.3,      // Max rotation on scroll (radians)
+        FLOAT_AMPLITUDE: 0.3,      // Particle floating amplitude
+        FLOAT_SPEED: 0.0005,       // Particle floating speed
+        MOUSE_INFLUENCE: 0.02,     // How much mouse affects camera
+        ACCENT_COLOR: 0x7c3aed,    // Primary accent (purple)
+        BLUE_COLOR: 0x499cf1,      // Secondary accent (blue)
+        SHIELD_SEGMENTS: 32,       // Shield wireframe detail
+        RING_COUNT: 3,             // Number of orbiting rings
+    };
+
+    // ---- CHECK FOR THREE.JS ----
+    if (typeof THREE === 'undefined') {
+        console.warn('Three.js not loaded');
+        return;
+    }
+
+    // ---- SCENE SETUP ----
+    const canvas = document.getElementById('three-canvas');
+    if (!canvas) return;
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance'
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Cap at 2x for performance
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+
+    const scene = new THREE.Scene();
+    // Add subtle fog for depth
+    scene.fog = new THREE.FogExp2(0x0a0d12, 0.015);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.set(0, 0, 30);
+
+    // ---- GROUPS ----
+    const particleGroup = new THREE.Group();
+    const shieldGroup = new THREE.Group();
+    const ringGroup = new THREE.Group();
+    scene.add(particleGroup, shieldGroup, ringGroup);
+
+    // ---- PARTICLE FIELD ----
+    function createParticles() {
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(CONFIG.PARTICLE_COUNT * 3);
+        const colors = new Float32Array(CONFIG.PARTICLE_COUNT * 3);
+        const sizes = new Float32Array(CONFIG.PARTICLE_COUNT);
+
+        const accentR = ((CONFIG.ACCENT_COLOR >> 16) & 255) / 255;
+        const accentG = ((CONFIG.ACCENT_COLOR >> 8) & 255) / 255;
+        const accentB = (CONFIG.ACCENT_COLOR & 255) / 255;
+        const blueR = ((CONFIG.BLUE_COLOR >> 16) & 255) / 255;
+        const blueG = ((CONFIG.BLUE_COLOR >> 8) & 255) / 255;
+        const blueB = (CONFIG.BLUE_COLOR & 255) / 255;
+
+        for (let i = 0; i < CONFIG.PARTICLE_COUNT; i++) {
+            const i3 = i * 3;
+            // Spread particles in a sphere
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            const r = Math.random() * CONFIG.PARTICLE_SPREAD;
+
+            positions[i3] = r * Math.sin(phi) * Math.cos(theta);
+            positions[i3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            positions[i3 + 2] = r * Math.cos(phi);
+
+            // Mix between accent and blue colors
+            const mix = Math.random();
+            colors[i3] = accentR * (1 - mix) + blueR * mix;
+            colors[i3 + 1] = accentG * (1 - mix) + blueG * mix;
+            colors[i3 + 2] = accentB * (1 - mix) + blueB * mix;
+
+            sizes[i] = CONFIG.PARTICLE_SIZE_MIN + Math.random() * (CONFIG.PARTICLE_SIZE_MAX - CONFIG.PARTICLE_SIZE_MIN);
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.08,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            sizeAttenuation: true
+        });
+
+        const points = new THREE.Points(geometry, material);
+        particleGroup.add(points);
+    }
+
+    // ---- SHIELD WIREFRAME (center piece) ----
+    function createShield() {
+        // Icosahedron wireframe - looks like a cyber shield
+        const geo = new THREE.IcosahedronGeometry(5, 1);
+        const mat = new THREE.MeshBasicMaterial({
+            color: CONFIG.ACCENT_COLOR,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.08,
+            blending: THREE.AdditiveBlending
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        shieldGroup.add(mesh);
+
+        // Inner sphere
+        const innerGeo = new THREE.IcosahedronGeometry(3.5, 2);
+        const innerMat = new THREE.MeshBasicMaterial({
+            color: CONFIG.BLUE_COLOR,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.04,
+            blending: THREE.AdditiveBlending
+        });
+        const innerMesh = new THREE.Mesh(innerGeo, innerMat);
+        shieldGroup.add(innerMesh);
+    }
+
+    // ---- ORBITING RINGS ----
+    function createRings() {
+        for (let i = 0; i < CONFIG.RING_COUNT; i++) {
+            const radius = 7 + i * 3;
+            const geo = new THREE.RingGeometry(radius, radius + 0.03, 64);
+            const mat = new THREE.MeshBasicMaterial({
+                color: i % 2 === 0 ? CONFIG.ACCENT_COLOR : CONFIG.BLUE_COLOR,
+                transparent: true,
+                opacity: 0.06,
+                side: THREE.DoubleSide,
+                blending: THREE.AdditiveBlending
+            });
+            const ring = new THREE.Mesh(geo, mat);
+            // Tilt each ring differently
+            ring.rotation.x = Math.PI * 0.3 + i * 0.4;
+            ring.rotation.y = i * 0.6;
+            ring.userData = { baseRotX: ring.rotation.x, baseRotY: ring.rotation.y, speed: 0.001 + i * 0.0005 };
+            ringGroup.add(ring);
+        }
+    }
+
+    // ---- FLOATING GEOMETRIC SHAPES ----
+    const floatingShapes = [];
+    function createFloatingShapes() {
+        const geometries = [
+            new THREE.OctahedronGeometry(0.5, 0),
+            new THREE.TetrahedronGeometry(0.4, 0),
+            new THREE.BoxGeometry(0.4, 0.4, 0.4),
+        ];
+
+        for (let i = 0; i < 12; i++) {
+            const geo = geometries[i % geometries.length];
+            const mat = new THREE.MeshBasicMaterial({
+                color: Math.random() > 0.5 ? CONFIG.ACCENT_COLOR : CONFIG.BLUE_COLOR,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.12,
+                blending: THREE.AdditiveBlending
+            });
+            const mesh = new THREE.Mesh(geo, mat);
+
+            // Random positions around the scene
+            const angle = (i / 12) * Math.PI * 2;
+            const dist = 15 + Math.random() * 20;
+            mesh.position.set(
+                Math.cos(angle) * dist,
+                (Math.random() - 0.5) * 20,
+                Math.sin(angle) * dist - 10
+            );
+
+            mesh.userData = {
+                baseY: mesh.position.y,
+                floatOffset: Math.random() * Math.PI * 2,
+                floatSpeed: 0.3 + Math.random() * 0.5,
+                rotSpeed: 0.005 + Math.random() * 0.01
+            };
+
+            scene.add(mesh);
+            floatingShapes.push(mesh);
+        }
+    }
+
+    // ---- BUILD SCENE ----
+    createParticles();
+    createShield();
+    createRings();
+    createFloatingShapes();
+
+    // ---- STATE ----
+    let scrollProgress = 0;      // 0 to 1
+    let mouseX = 0, mouseY = 0;  // -1 to 1
+    let targetMouseX = 0, targetMouseY = 0;
+    let time = 0;
+
+    // ---- SCROLL HANDLER (called from main.js via window) ----
+    window.updateThreeScroll = function (progress) {
+        scrollProgress = progress;
+    };
+
+    // ---- MOUSE HANDLER ----
+    function onMouseMove(e) {
+        targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    }
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    // ---- RESIZE ----
+    function onResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    window.addEventListener('resize', onResize);
+
+    // ---- ANIMATION LOOP ----
+    function animate() {
+        requestAnimationFrame(animate);
+        time += 1;
+
+        // Smooth mouse interpolation
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+
+        // Camera movement based on scroll
+        camera.position.z = 30 - scrollProgress * CONFIG.SCROLL_DEPTH;
+        camera.position.x = mouseX * 2;
+        camera.position.y = mouseY * 1.5;
+        camera.lookAt(0, 0, 0);
+
+        // Rotate particle field
+        particleGroup.rotation.y += CONFIG.ROTATION_SPEED;
+        particleGroup.rotation.x = mouseY * CONFIG.MOUSE_INFLUENCE;
+        particleGroup.rotation.z = scrollProgress * CONFIG.SCROLL_ROTATION * 0.3;
+
+        // Animate shield
+        shieldGroup.rotation.y += 0.002;
+        shieldGroup.rotation.x = Math.sin(time * 0.001) * 0.1;
+        shieldGroup.children.forEach((child, i) => {
+            child.rotation.z += 0.001 * (i + 1);
+        });
+
+        // Animate rings
+        ringGroup.children.forEach((ring) => {
+            ring.rotation.z += ring.userData.speed;
+        });
+
+        // Animate floating shapes
+        floatingShapes.forEach((shape) => {
+            const ud = shape.userData;
+            shape.position.y = ud.baseY + Math.sin(time * 0.002 * ud.floatSpeed + ud.floatOffset) * CONFIG.FLOAT_AMPLITUDE * 3;
+            shape.rotation.x += ud.rotSpeed;
+            shape.rotation.y += ud.rotSpeed * 0.7;
+        });
+
+        // Particle field breathing effect
+        const breathe = 1 + Math.sin(time * 0.001) * 0.02;
+        particleGroup.scale.set(breathe, breathe, breathe);
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // ---- MOBILE: reduce particles for performance ----
+    if (window.innerWidth < 768) {
+        CONFIG.PARTICLE_COUNT = 300;
+        // Rebuild particles with fewer count
+        particleGroup.clear();
+        createParticles();
+    }
+
+})();

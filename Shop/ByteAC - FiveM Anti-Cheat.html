@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://byte-anticheat.online/#pricing -->
+<html lang="en" style="scroll-behavior: smooth;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByteAC - FiveM Anti-Cheat</title>
+    <meta name="description" content="ByteAC - Advanced FiveM Anti-Cheat solution. Protect your server from cheaters with real-time detection and cloud-based configuration.">
+    <meta name="theme-color" content="#7c3aed">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ByteAC Anti-Cheat">
+    <meta property="og:description" content="Elevate and safeguard your FiveM experience with ByteAC, the cutting-edge anti-cheat solution.">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./ByteAC - FiveM Anti-Cheat_files/css2" rel="stylesheet">
+    <link rel="stylesheet" href="./ByteAC - FiveM Anti-Cheat_files/styles.css">
+</head>
+<body style="">
+    <!-- Three.js 3D Canvas -->
+    <canvas id="three-canvas" width="1920" height="911" style="width: 1920px; height: 911px;"></canvas>
+
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- Navbar -->
+    <nav class="scrolled">
+        <a href="https://byte-anticheat.online/" class="nav-logo">
+            <div class="nav-logo-icon"><img src="./ByteAC - FiveM Anti-Cheat_files/bac.png" alt="ByteAC"></div>
+            <span class="nav-logo-text">ByteAC</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links">
+            <a href="https://discord.gg/ETUd4JHAwK" target="_blank" class="nav-link nav-link-discord">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path></svg>
+                Discord
+            </a>
+            <a href="https://byte-anticheat.online/#pricing" class="nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                Shop
+            </a>
+            <a href="https://byte-anticheat.gitbook.io/byte-anticheat/" target="_blank" class="nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                Docs
+            </a>
+            <a href="https://panel.byte-anticheat.online/" target="_blank" class="nav-link nav-link-accent">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+                Panel
+            </a>
+        </div>
+    </nav>
+
+    <div class="scene-wrapper">
+
+    <!-- Hero -->
+    <section class="hero section-3d" style="translate: none; rotate: none; scale: none; transform: translate(0px, -9px);">
+        <div class="hero-left">
+            <div class="hero-badge" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
+                <span class="hero-badge-dot"></span>
+                Protecting FiveM servers worldwide
+            </div>
+            <h1 style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
+                <span class="white">Secure Your</span><br>
+                <span class="gradient">Server</span>
+            </h1>
+            <div class="hero-underline" style="translate: none; rotate: none; scale: none; width: 100%; transform: translate(0px, 0px); opacity: 1;"></div>
+            <p class="hero-subtitle" id="typewriter" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">ByteAC is the ultimate anti-cheat solution for your FiveM servers, offering unparalleled protection against cheaters and malicious exploits.<span class="cursor"></span></p>
+            <div class="hero-buttons" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
+                <a href="https://byte-anticheat.online/#pricing" class="btn btn-primary" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                    Get Protected
+                </a>
+                <a href="https://byte-anticheat.online/#features" class="btn btn-secondary" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                    Learn More
+                </a>
+            </div>
+            <div class="stats-row" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path></svg>
+                    </div>
+                    <div class="stat-value" id="totalBans">162</div>
+                    <div class="stat-label">Cheaters Banned</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2"></rect><rect width="20" height="8" x="2" y="14" rx="2"></rect><line x1="6" x2="6.01" y1="6" y2="6"></line><line x1="6" x2="6.01" y1="18" y2="18"></line></svg>
+                    </div>
+                    <div class="stat-value" id="onlineServers">6</div>
+                    <div class="stat-label">Servers Online</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <div class="stat-value" id="totalServers">55</div>
+                    <div class="stat-label">Protected Servers</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-right" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
+            <div class="hero-glow-1"></div>
+            <div class="hero-glow-2"></div>
+            <div class="hero-image-wrap">
+                <img src="./ByteAC - FiveM Anti-Cheat_files/image.png" alt="ByteAC Panel" style="width:100%;height:auto;object-fit:contain;background:transparent;">
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider" style="translate: none; rotate: none; scale: none; opacity: 0.3; transform: translate(0px, 0px);"></div>
+
+    <!-- Features -->
+    <section class="features section-3d" id="features" style="translate: none; rotate: none; scale: none; transform: translate(0px, -18px);">
+        <div class="section-title">
+            <h2 style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">Why ByteAC?</h2>
+            <p style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">Built for performance. Designed for security.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path></svg></div>
+                <h3>Real-Time Detection</h3>
+                <p>Server-side and client-side detection catches cheats instantly with zero false positives.</p>
+            </div>
+            <div class="feature-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
+                <h3>Cloud Configuration</h3>
+                <p>Manage all settings from the web panel. Changes apply instantly without server restart.</p>
+            </div>
+            <div class="feature-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 0 1 9-9"></path></svg></div>
+                <h3>Global Ban Sync</h3>
+                <p>Bans synchronize across all your servers in real-time through the cloud.</p>
+            </div>
+            <div class="feature-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg></div>
+                <h3>Zero Performance Impact</h3>
+                <p>Optimized detection runs efficiently without affecting server or client FPS.</p>
+            </div>
+            <div class="feature-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                <h3>Multi-Server Support</h3>
+                <p>One panel to manage all your FiveM servers with easy pairing and instant setup.</p>
+            </div>
+            <div class="feature-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
+                <h3>Escrow Protected</h3>
+                <p>Source code is encrypted via FiveM escrow. No one can crack or modify the anticheat.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider" style="translate: none; rotate: none; scale: none; opacity: 0.3; transform: translate(0px, 0px);"></div>
+
+    <!-- Pricing (UNTOUCHED - same links, layout, logic, styling) -->
+    <section class="pricing section-3d" id="pricing" style="translate: none; rotate: none; scale: none; transform: translate3d(0px, -13.0488px, 0px);">
+        <div class="section-title">
+            <h2 style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">Pricing Plans</h2>
+            <p style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">Choose the perfect protection level for your server.</p>
+        </div>
+        <div class="pricing-grid">
+            <!-- 7 Days -->
+            <div class="pricing-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px) rotateY(2.15599deg) rotateX(0.888316deg); opacity: 1;">
+                <div class="pricing-name">7 Days</div>
+                <div class="pricing-desc">Perfect for short-term testing and events.</div>
+                <div class="pricing-price">
+                    <span class="amount">€5</span>
+                    <span class="period">/ 7 days</span>
+                </div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>7 Day Access</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Live Web Panel</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>All ByteAC Features</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Network Intelligence Tools</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Player Tracking &amp; Monitoring</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>24/7 Support</li>
+                </ul>
+                <a href="https://buy.polar.sh/polar_cl_5alpToUtXjoo4sUnSfyvyEEWzuDuwhQxBLSZH3ULMXk" target="_blank" class="pricing-btn pricing-btn-default">Purchase</a>
+                <div class="pricing-note">Includes 7 days free trial</div>
+            </div>
+
+            <!-- 30 Days - POPULAR -->
+            <div class="pricing-card popular" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="popular-badge">Popular</div>
+                <div class="pricing-name">30 Days</div>
+                <div class="pricing-desc">Great for monthly protection at a fair price.</div>
+                <div class="pricing-price">
+                    <span class="amount">€10</span>
+                    <span class="period">/ month</span>
+                </div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>1 Month Access</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Live Web Panel</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>All ByteAC Features</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Network Intelligence Tools</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Player Tracking &amp; Monitoring</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>24/7 Support</li>
+                </ul>
+                <a href="https://buy.polar.sh/polar_cl_VNBTeVGDhVXSwcdIlhFn7UxHlvKcptzMfdfTW0YNKgw" target="_blank" class="pricing-btn pricing-btn-accent">Purchase</a>
+            </div>
+
+            <!-- 90 Days -->
+            <div class="pricing-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="pricing-name">90 Days</div>
+                <div class="pricing-desc">Best value for established servers.</div>
+                <div class="pricing-price">
+                    <span class="amount">€25</span>
+                    <span class="period">/ 3 months</span>
+                </div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>3 Month Access</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Live Web Panel</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>All ByteAC Features</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Network Intelligence Tools</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Player Tracking &amp; Monitoring</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>24/7 Support</li>
+                </ul>
+                <a href="https://buy.polar.sh/polar_cl_cpQgShWtJZJw2ZJ0K7B1wiv2xrO0WSBBw16Ht4Bfw3m" target="_blank" class="pricing-btn pricing-btn-default" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px);">Purchase</a>
+            </div>
+
+            <!-- Lifetime -->
+            <div class="pricing-card" style="translate: none; rotate: none; scale: none; transform: perspective(800px); opacity: 1;">
+                <div class="pricing-name">Lifetime</div>
+                <div class="pricing-desc">The ultimate choice for professional communities.</div>
+                <div class="pricing-price">
+                    <span class="amount">€50</span>
+                    <span class="period">/ forever</span>
+                </div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Lifetime Access</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Live Web Panel</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>All ByteAC Features</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Network Intelligence Tools</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Player Tracking &amp; Monitoring</li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>24/7 Priority Support</li>
+                </ul>
+                <a href="https://buy.polar.sh/polar_cl_W0hDmkSgOPuxgz6RhhBxAlyOGst7Lvrx137xM4brHrt" target="_blank" class="pricing-btn pricing-btn-default">Purchase</a>
+            </div>
+        </div>
+        <div style="text-align:center;margin-top:24px;">
+            <p style="color:var(--text-secondary);font-size:15px;">Need a custom solution? <a href="https://discord.gg/ETUd4JHAwK" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:600;">Join our Discord</a>.</p>
+        </div>
+    </section>
+
+    </div><!-- end scene-wrapper -->
+
+    <!-- Footer -->
+    <footer style="translate: none; rotate: none; scale: none; transform: translate(0px, 30px); opacity: 0;">
+        <div class="footer-content">
+            <div class="footer-left">
+                © 2025 ByteAC — Made by <a href="https://discord.gg/ETUd4JHAwK" target="_blank">Smirgel</a>
+            </div>
+            <div class="footer-right">
+                <a href="https://discord.gg/ETUd4JHAwK" target="_blank">Discord</a>
+                <a href="https://byte-anticheat.gitbook.io/byte-anticheat/" target="_blank">Documentation</a>
+                <a href="https://panel.byte-anticheat.online/" target="_blank">Panel</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Libraries (CDN) -->
+    <script src="./ByteAC - FiveM Anti-Cheat_files/three.min.js.download"></script>
+    <script src="./ByteAC - FiveM Anti-Cheat_files/gsap.min.js.download"></script>
+    <script src="./ByteAC - FiveM Anti-Cheat_files/ScrollTrigger.min.js.download"></script>
+    <!-- App Scripts -->
+    <script src="./ByteAC - FiveM Anti-Cheat_files/three-scene.js.download"></script>
+    <script src="./ByteAC - FiveM Anti-Cheat_files/main.js.download"></script>
+
+
+</body></html>
